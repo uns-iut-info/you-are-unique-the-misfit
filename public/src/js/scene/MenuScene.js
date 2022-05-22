@@ -96,7 +96,7 @@ export default class MenuScene extends AbstractScene {
                     progress.currentSelectedPath = "Level" + levelIndex + ".json";
                     progress.currentSelectedLevel = "Level" + levelIndex;
 
-                    GameState.state = GameState.STARTING;
+                    GameState.state = GameState.CUTSCENE;
                     this.clearColor = new BABYLON.Color4(0, 0, 0);
                     soundLoader.sceneMusic.pause();
                     this.render();
