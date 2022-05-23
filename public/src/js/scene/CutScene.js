@@ -1,4 +1,4 @@
-import {GameState, progress} from "../utils.js";
+import {addUIControlMenuButton, GameState, progress} from "../utils.js";
 import {soundLoader} from "../sound.js";
 
 export default class CutScene extends BABYLON.Scene {
@@ -22,7 +22,8 @@ export default class CutScene extends BABYLON.Scene {
         this.newTextIndex = 0;
         this.setupScene();
         this.load();
-        this.loadGUI().then(r => {});
+        this.loadGUI().then(r => {
+        });
 
     }
 
@@ -52,7 +53,7 @@ export default class CutScene extends BABYLON.Scene {
         this.godSpot.intensity = 0.5;
         this.satanSpot.intensity = 0.5;
 
-        this.clearColor = new BABYLON.Color4(0,0,0);
+        this.clearColor = new BABYLON.Color4(0, 0, 0);
     }
 
     async loadGUI() {
@@ -62,45 +63,24 @@ export default class CutScene extends BABYLON.Scene {
             this
         );
 
-        // await advancedTexture.parseFromURLAsync("./assets/ui/json/cinematicUI.json");
+        await advancedTexture.parseFromURLAsync("./assets/ui/json/cutSceneUI.json");
 
-        let skipButton = BABYLON.GUI.Button.CreateSimpleButton("but", "SKIP");
-        skipButton.width = "150px"
-        skipButton.height = "40px";
-        skipButton.color = "white";
-        skipButton.cornerRadius = 20;
-        skipButton.background = "green";
-        skipButton.onPointerUpObservable.add(() => {
-            GameState.state = GameState.STARTING;
-            advancedTexture.dispose();
-        });
-        advancedTexture.addControl(skipButton);
+        let im = advancedTexture.getControlByName("textBackground");
+        im.source = "./assets/ui/textBackground.png";
 
-        let passButton = BABYLON.GUI.Button.CreateSimpleButton("but", "PASS");
-        passButton.width = "150px"
-        passButton.height = "40px";
-        passButton.color = "white";
-        passButton.cornerRadius = 20;
-        passButton.background = "green";
-        passButton.onPointerUpObservable.add(() => {
+        addUIControlMenuButton(advancedTexture, "pass", "Grey", () => {
             console.log(this.newTextIndex);
             this.newTextIndex++;
             console.log(this.newTextIndex);
         });
 
-        this.textBlock = new BABYLON.GUI.TextBlock();
-        this.textBlock.color = "white";
-        this.textBlock.fontSize = 24;
+        addUIControlMenuButton(advancedTexture, "skip", "Grey", () => {
+            GameState.state = GameState.STARTING;
+            advancedTexture.dispose();
+        });
 
-        advancedTexture.addControl(this.textBlock);
+        this.textBlock = advancedTexture.getControlByName("Textblock");
 
-        skipButton.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        skipButton.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-
-        passButton.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        passButton.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
-
-        advancedTexture.addControl(passButton);
         this.advancedTexture = advancedTexture;
     }
 
@@ -125,12 +105,12 @@ export default class CutScene extends BABYLON.Scene {
         switch (mesh.name) {
             case "GodBeard":
                 material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-                material.specularColor = new BABYLON.Color3(0,0,0);
+                material.specularColor = new BABYLON.Color3(0, 0, 0);
                 mesh.material = material;
                 break;
             case "GodBody":
                 material.diffuseTexture = new BABYLON.Texture("./models/cutScene/GodBody.jpg", this.scene);
-                material.specularColor = new BABYLON.Color3(0,0,0);
+                material.specularColor = new BABYLON.Color3(0, 0, 0);
                 mesh.material = material;
                 break;
             case "GodStaff":
@@ -149,7 +129,7 @@ export default class CutScene extends BABYLON.Scene {
                 break;
             case "SatanBody":
                 material.diffuseTexture = new BABYLON.Texture("./models/cutScene/SatanBody.jpg", this.scene);
-                material.specularColor = new BABYLON.Color3(0,0,0);
+                material.specularColor = new BABYLON.Color3(0, 0, 0);
                 mesh.material = material;
                 break;
             case "SatanBeard":
@@ -188,15 +168,13 @@ export default class CutScene extends BABYLON.Scene {
                     soundLoader.playSound(soundLoader.angel);
                     this.godSpot.intensity = 2;
                     this.satanSpot.intensity = 0.5;
-                }
-                else {
+                } else {
                     soundLoader.angel.pause();
                     soundLoader.playSound(soundLoader.satan);
                     this.godSpot.intensity = 0.5;
                     this.satanSpot.intensity = 2;
                 }
-            }
-            else {
+            } else {
                 soundLoader.resetAllSound();
                 this.advancedTexture.dispose();
                 GameState.state = GameState.STARTING;

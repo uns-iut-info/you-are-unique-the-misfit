@@ -22,6 +22,9 @@ export default class MenuScene extends AbstractScene {
         }
 
         let advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("mainMenuUI", true, this);
+
+
+
         let loadedGUI = await advancedTexture.parseFromURLAsync("./assets/ui/json/mainMenuUI.json");
 
         let logo = advancedTexture.getControlByName("Logo");
