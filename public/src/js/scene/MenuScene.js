@@ -22,6 +22,9 @@ export default class MenuScene extends AbstractScene {
         }
 
         let advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("mainMenuUI", true, this);
+
+
+
         let loadedGUI = await advancedTexture.parseFromURLAsync("./assets/ui/json/mainMenuUI.json");
 
         let logo = advancedTexture.getControlByName("Logo");
@@ -96,7 +99,7 @@ export default class MenuScene extends AbstractScene {
                     progress.currentSelectedPath = "Level" + levelIndex + ".json";
                     progress.currentSelectedLevel = "Level" + levelIndex;
 
-                    GameState.state = GameState.STARTING;
+                    GameState.state = GameState.CUTSCENE;
                     this.clearColor = new BABYLON.Color4(0, 0, 0);
                     soundLoader.sceneMusic.pause();
                     this.render();
