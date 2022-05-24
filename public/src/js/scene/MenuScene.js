@@ -177,7 +177,7 @@ export default class MenuScene extends AbstractScene {
             soundLoader.resetAllSound();
             advancedTexture.dispose();
             progress.nextLevel();
-            GameState.state = GameState.STARTING;
+            GameState.state = GameState.CUTSCENE;
             this.clearColor = new BABYLON.Color4(0, 0, 0);
             this.render();
         });
